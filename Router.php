@@ -3,7 +3,7 @@
 require_once "src/controller/DefaultController.php";
 
 class Router {
-    public static $routes = [];
+    public static array $routes = [];
 
     public static function get($url, $view) {
         self::$routes[$url] = $view;
