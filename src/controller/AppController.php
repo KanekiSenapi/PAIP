@@ -2,8 +2,8 @@
 
 class AppController {
 
-    private $APP_TITLE_TAG = "{{APP.TITLE}}";
-    private $APP_CONTENT_TAG = "{{APP.CONTENT}}";
+    private string $APP_TITLE_TAG = "{{APP.TITLE}}";
+    private string $APP_CONTENT_TAG = "{{APP.CONTENT}}";
 
     protected function render(string $template = null, string $title = "", array $variables = []) {
         $content = $this->prepareContent($template, $variables);
