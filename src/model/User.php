@@ -22,4 +22,15 @@ class User {
         return $this->password;
     }
 
+
+    public function getName(): string {
+        return $this->name;
+    }
+
+    public function getSurname(): string {
+        return $this->surname;
+    }
+
+
+
 }

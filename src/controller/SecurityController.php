@@ -6,9 +6,14 @@ require_once __DIR__."/../model/User.php";
 
 class SecurityController extends AppController {
 
-    public function login() {
-        $userRepository = new UserRepository();
+    private $userRepository;
 
+    public function __construct(){
+        parent::__construct();
+        $this->userRepository = new UserRepository();
+    }
+
+    public function login() {
         if (!$this->isPost()) {
             $this->render('login');
             return;
@@ -16,7 +21,7 @@ class SecurityController extends AppController {
 
         $email = $_POST['email'];
         $password = self::encryptPassword($_POST['password']);
-        $user = $userRepository->getUser($email);
+        $user = $this->userRepository->getUserByEmail($email);
 
         if (!$user) {
             $this->render('login', "Login", ['messages' => ['User not found!']]);
@@ -27,6 +32,40 @@ class SecurityController extends AppController {
         } else {
             $url = "http://$_SERVER[HTTP_HOST]";
             header("Location: {$url}/home");
+        }
+    }
+
+    public function register() {
+
+        if (!$this->isPost()) {
+            $this->render('register');
+            return;
+        }
+
+        $email = $_POST['email'];
+        $password = self::encryptPassword($_POST['password']);
+        $password2 = self::encryptPassword($_POST['password2']);
+        $name = $_POST['name'];
+        $surname = $_POST['surname'];
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $this->render('register', "Register", ['messages' => ['Email is not valid!']]);
+        } else if ($password != $password2) {
+            $this->render('register', "Register", ['messages' => ['Password must be the same!']]);
+        } else if ($this->userRepository->existUserByEmail($email)) {
+            $this->render('register', "Register", ['messages' => ['Email already exist in database!']]);
+        } else if (!isset($name) || !isset($surname)) {
+            $this->render('register', "Register", ['messages' => ['Fill all fields with values!']]);
+        } else {
+            $user = new User($email, $password, $name, $surname);
+
+            $inserted = $this->userRepository->insertUser($user);
+
+            if ($inserted) {
+                $this->render('register', "Register", ['messages' => ['Successfully registered! You can log in now.']]);
+            } else {
+                $this->render('register', "Register", ['messages' => ['Something went wrong. Try again!']]);
+            }
         }
     }
 
