@@ -1,6 +1,7 @@
 <?php
 
 class AppController {
+    private $request;
 
     private string $APP_TITLE_TAG = "{{APP.TITLE}}";
     private string $APP_CONTENT_TAG = "{{APP.CONTENT}}";
@@ -36,5 +37,17 @@ class AppController {
         $basic = str_replace($this->APP_CONTENT_TAG, $content, $basic);
 
         return $basic;
+    }
+
+    public function __construct() {
+        $this->request = $_SERVER['REQUEST_METHOD'];
+    }
+
+    protected function isGet(): bool {
+        return $this->request === 'GET';
+    }
+
+    protected function isPost(): bool {
+        return $this->request === 'POST';
     }
 }
