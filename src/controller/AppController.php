@@ -10,7 +10,6 @@ class AppController {
         $content = $this->prepareContent($template, $variables);
 
         print $this->prepareBasicPage($title, $content);
-
     }
 
     private function prepareContent(string $template = null, array $variables = []): string {

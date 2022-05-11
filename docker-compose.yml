@@ -13,14 +13,18 @@ services:
       - php
 
   php:
-    image: "php:7.4.29-fpm-alpine3.15"
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
     volumes:
       - .:/app/
+    links:
+      - postgres
 
-#  postgres:
-#    image: "postgres:14.2"
-#    ports:
-#      - "5432:5432"
-#    environment:
-#      POSTGRES_DB: "db"
-#      POSTGRES_HOST_AUTH_METHOD: "trust"
+  postgres:
+    image: "postgres:14.2"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "paip"
+      POSTGRES_PASSWORD: "paip"
