@@ -17,6 +17,8 @@ class UserRepository extends Repository {
 
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        $connection = null;
+
         if (!$user) {
             return null;
         }
@@ -42,7 +44,7 @@ class UserRepository extends Repository {
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':surname', $surname);
         $inserted = $stmt->execute();
-
+        $connection = null;
         return $inserted;
     }
 }

@@ -2,15 +2,18 @@
 
 require_once "AppController.php";
 require_once __DIR__."/../repository/UserRepository.php";
+require_once __DIR__."/../repository/RoleRepository.php";
 require_once __DIR__."/../model/User.php";
 
 class SecurityController extends AppController {
 
     private $userRepository;
+    private $roleRepository;
 
     public function __construct(){
         parent::__construct();
         $this->userRepository = new UserRepository();
+        $this->roleRepository = new RoleRepository();
     }
 
     public function login() {
@@ -36,7 +39,6 @@ class SecurityController extends AppController {
     }
 
     public function register() {
-
         if (!$this->isPost()) {
             $this->render('register');
             return;
@@ -68,6 +70,19 @@ class SecurityController extends AppController {
             }
         }
     }
+
+    public function roles() {
+        if (!$this->isPost()) {
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/home");
+            return;
+        }
+
+        $roles = $this->roleRepository->getRolesByUserId("1");
+
+        print_r($roles);
+    }
+
 
     private function encryptPassword(string $password) : string {
         return password_hash($password, PASSWORD_DEFAULT, ["salt" => "paip123456789paip0paip123456789paip"]);
