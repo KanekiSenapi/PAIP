@@ -18,20 +18,20 @@ class SecurityController extends AppController {
 
     public function login() {
         if (!$this->isPost()) {
-            $this->render('login');
+            $this->render("login", "Login");
             return;
         }
 
-        $email = $_POST['email'];
-        $password = self::encryptPassword($_POST['password']);
+        $email = $_POST["email"];
+        $password = self::encryptPassword($_POST["password"]);
         $user = $this->userRepository->getUserByEmail($email);
 
         if (!$user) {
-            $this->render('login', "Login", ['messages' => ['User not found!']]);
+            $this->render("login", "Login", ["messages" => ["User not found!"]]);
         } else if ($user->getEmail() !== $email) {
-            $this->render('login', "Login", ['messages' => ['User with this email not exist!']]);
+            $this->render("login", "Login", ["messages" => ["User with this email not exist!"]]);
         } else if ($user->getPassword() !== $password) {
-            $this->render('login', "Login", ['messages' => ['Wrong password!']]);
+            $this->render("login", "Login", ["messages" => ["Wrong password!"]]);
         } else {
             $url = "http://$_SERVER[HTTP_HOST]";
             header("Location: {$url}/home");
@@ -40,33 +40,33 @@ class SecurityController extends AppController {
 
     public function register() {
         if (!$this->isPost()) {
-            $this->render('register');
+            $this->render("register");
             return;
         }
 
-        $email = $_POST['email'];
-        $password = self::encryptPassword($_POST['password']);
-        $password2 = self::encryptPassword($_POST['password2']);
-        $name = $_POST['name'];
-        $surname = $_POST['surname'];
+        $email = $_POST["email"];
+        $password = self::encryptPassword($_POST["password"]);
+        $password2 = self::encryptPassword($_POST["password2"]);
+        $name = $_POST["name"];
+        $surname = $_POST["surname"];
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $this->render('register', "Register", ['messages' => ['Email is not valid!']]);
+            $this->render("register", "Register", ["messages" => ["Email is not valid!"]]);
         } else if ($password != $password2) {
-            $this->render('register', "Register", ['messages' => ['Password must be the same!']]);
+            $this->render("register", "Register", ["messages" => ["Password must be the same!"]]);
         } else if ($this->userRepository->existUserByEmail($email)) {
-            $this->render('register', "Register", ['messages' => ['Email already exist in database!']]);
+            $this->render("register", "Register", ["messages" => ["Email already exist in database!"]]);
         } else if (!isset($name) || !isset($surname)) {
-            $this->render('register', "Register", ['messages' => ['Fill all fields with values!']]);
+            $this->render("register", "Register", ["messages" => ["Fill all fields with values!"]]);
         } else {
             $user = new User($email, $password, $name, $surname);
 
             $inserted = $this->userRepository->insertUser($user);
 
             if ($inserted) {
-                $this->render('register', "Register", ['messages' => ['Successfully registered! You can log in now.']]);
+                $this->render("login", "Login", ["messages" => ["Successfully registered! You can log in now."]]);
             } else {
-                $this->render('register', "Register", ['messages' => ['Something went wrong. Try again!']]);
+                $this->render("register", "Register", ["messages" => ["Something went wrong. Try again!"]]);
             }
         }
     }

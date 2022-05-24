@@ -1,6 +1,6 @@
 <div class="login-container">
-    <form class="register" action="register" method="POST">
-        <div class="messages">
+    <form class="form register" action="register" method="POST">
+        <div class="messages" style="<?=(isset($messages)) ? 'display: block' : ''?>">
             <?php
                         if(isset($messages)){
                             foreach($messages as $message) {
@@ -9,11 +9,16 @@
                         }
                     ?>
         </div>
-        <input name="email" type="text" placeholder="email@email.com">
-        <input name="password" type="password" placeholder="password">
-        <input name="password2" type="password" placeholder="Repeat Password">
-        <input name="name" type="text" placeholder="name">
-        <input name="surname" type="text" placeholder="surname">
+        <label for="email-label">Email</label>
+        <input name="email" id="email-label" type="text" placeholder="Email">
+        <label for="password-label">Password</label>
+        <input name="password" id="password-label" type="password" placeholder="Password">
+        <label for="password2-label">Repeat Password</label>
+        <input name="password2" id="password2-label" type="password" placeholder="Repeat Password">
+        <label for="name-label">Name</label>
+        <input name="name" id="name-label" type="text" placeholder="Name">
+        <label for="surname-label">Surname</label>
+        <input name="surname" id="surname-label" type="text" placeholder="Surname">
         <button type="submit">Register</button>
     </form>
 </div>
