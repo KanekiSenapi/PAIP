@@ -43,11 +43,6 @@ body {
     text-decoration: none;
 }
 
-@media screen and (max-width: 767px) {
-    .navigation-logo {
-        padding-left: 10px;
-    }
-}
 
 .navigation-logo-text {
     margin-top: 0;
@@ -59,12 +54,6 @@ body {
     font-weight: 300;
     letter-spacing: 4px;
     text-transform: uppercase;
-}
-
-@media screen and (max-width: 767px) {
-    .navigation-menu {
-        display: none;
-    }
 }
 
 .navigation-menu {
@@ -103,8 +92,32 @@ body {
 }
 
 @media screen and (max-width: 767px) {
+    .navigation-logo {
+        padding-left: 10px;
+    }
+
+    .navigation-menu {
+        position: absolute;
+        overflow: hidden;
+        display: none;
+        top: 100%;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background-color: #3b99d9;
+    }
+
+    .navigation-link {
+        color: hsla(0, 0%, 100%, 0.52);
+        display: block;
+    }
+
     .navigation-hamburger-button {
         display: block;
+    }
+
+    .navigation-link-current {
+        color: #fff;
     }
 }
 
@@ -112,9 +125,7 @@ body {
     height: 25px;
 }
 
-.navigation-menu-open {
-    background-color: #3b99d9;
-}
+
 
 .footer {
     padding-top: 35px;
