@@ -21,7 +21,7 @@ class RoleRepository extends Repository {
 
         $connection = null;
 
-        return $this->mapToRolesNameList($roles);;
+        return $this->mapToRolesNameList($roles);
     }
 
     private function mapToRolesNameList($roles): array {

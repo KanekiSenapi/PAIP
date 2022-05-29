@@ -2,6 +2,7 @@
 
 require_once "src/controller/DefaultController.php";
 require_once "src/controller/SecurityController.php";
+require_once "src/controller/BooksController.php";
 
 class Router {
     public static array $routes = [];

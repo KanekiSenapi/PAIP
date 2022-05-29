@@ -12,7 +12,7 @@ class UserRepository extends Repository {
         $connection = $this->datasource->connect();
 
         $stmt = $connection->prepare(self::$SELECT_BY_EMAIL);
-        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(":email", $email);
         $stmt->execute();
 
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -23,7 +23,7 @@ class UserRepository extends Repository {
             return null;
         }
 
-        return new User($user['email'], $user['password'], $user['name'], $user['surname']);
+        return new User($user["email"], $user["password"], $user["name"], $user["surname"], $user["id"]);
     }
 
     public function existUserByEmail(string $email): bool {
@@ -39,10 +39,10 @@ class UserRepository extends Repository {
         $name = $user->getName();
         $surname = $user->getSurname();
 
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $password);
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':surname', $surname);
+        $stmt->bindParam(":email", $email);
+        $stmt->bindParam(":password", $password);
+        $stmt->bindParam(":name", $name);
+        $stmt->bindParam(":surname", $surname);
         $inserted = $stmt->execute();
         $connection = null;
         return $inserted;

@@ -1,6 +1,12 @@
 <?php
 
+require_once __DIR__."/../service/SessionService.php";
+require_once __DIR__."/../service/RoleService.php";
+
 class AppController {
+    protected SessionService $sessionService;
+    protected RoleService $roleService;
+
     private $request;
 
     private string $APP_TITLE_TAG = "{{APP.TITLE}}";
@@ -8,7 +14,20 @@ class AppController {
     private string $APP_HEADER_TAG = "{{APP.HEADER}}";
     private string $APP_FOOTER_TAG = "{{APP.FOOTER}}";
 
-    protected function render(string $template = null, string $title = "", array $variables = []) {
+    public function __construct() {
+        session_start();
+        $this->request = $_SERVER['REQUEST_METHOD'];
+        $this->sessionService = new SessionService();
+        $this->roleService = new RoleService();
+    }
+
+    protected function render(string $template = null, string $title = "", array $variables = [], string $requiredRoles = "") {
+        $this->sessionValidity();
+        if (!$this->roleValidate($requiredRoles)) {
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/home");
+        }
+
         $content = $this->prepareContent($template, $variables);
 
         print $this->prepareBasicPage($title, $content, $template);
@@ -59,15 +78,35 @@ class AppController {
         return $basic;
     }
 
-    public function __construct() {
-        $this->request = $_SERVER['REQUEST_METHOD'];
-    }
-
     protected function isGet(): bool {
         return $this->request === 'GET';
     }
 
     protected function isPost(): bool {
         return $this->request === 'POST';
+    }
+
+    private function sessionValidity() {
+        if($_SESSION["created"]) {
+            $uid = $_SESSION["uid"];
+            $sid = $_SESSION["sid"];
+            if(!$this->sessionService->isSessionValid($sid, $uid)) {
+                session_unset();
+            }
+        }
+    }
+
+    private function roleValidate(string $requiredRole = ""):bool {
+        if (empty($requiredRole)) {
+            return true;
+        } else {
+            if($_SESSION["created"]) {
+                $uid = $_SESSION["uid"];
+                $roles = $this->roleService->getRolesForUid($uid);
+                return in_array($requiredRole, $roles);
+            } else {
+                return false;
+            }
+        }
     }
 }

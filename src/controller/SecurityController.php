@@ -2,18 +2,15 @@
 
 require_once "AppController.php";
 require_once __DIR__."/../repository/UserRepository.php";
-require_once __DIR__."/../repository/RoleRepository.php";
 require_once __DIR__."/../model/User.php";
 
 class SecurityController extends AppController {
 
-    private $userRepository;
-    private $roleRepository;
+    private UserRepository $userRepository;
 
     public function __construct(){
         parent::__construct();
         $this->userRepository = new UserRepository();
-        $this->roleRepository = new RoleRepository();
     }
 
     public function login() {
@@ -32,10 +29,25 @@ class SecurityController extends AppController {
             $this->render("login", "Login", ["messages" => ["User with this email not exist!"]]);
         } else if ($user->getPassword() !== $password) {
             $this->render("login", "Login", ["messages" => ["Wrong password!"]]);
-        } else {
+        } else if ($this->prepareSession($user)) {
             $url = "http://$_SERVER[HTTP_HOST]";
             header("Location: {$url}/home");
+        } else {
+            $this->render("login", "Login", ["messages" => ["Something went wrong! Try again."]]);
         }
+    }
+
+    public function logout() {
+        $url = "http://$_SERVER[HTTP_HOST]";
+        if (!$this->isGet()) {
+            header("Location: {$url}/home");
+            return;
+        }
+
+        $sid = session_id();
+        $this->sessionService->deactivateSessionForSid($sid);
+        session_destroy();
+        header("Location: {$url}/home");
     }
 
     public function register() {
@@ -71,18 +83,22 @@ class SecurityController extends AppController {
         }
     }
 
-    public function roles() {
-        if (!$this->isPost()) {
-            $url = "http://$_SERVER[HTTP_HOST]";
-            header("Location: {$url}/home");
-            return;
+    public function prepareSession(User $user): bool {
+        $this->sessionService->deactivateSessionForUid($user->getId());
+        session_regenerate_id(true);
+        $sid = session_id();
+        $createdSession = $this->sessionService->createSession($sid, $user->getId());
+
+
+        if ($createdSession) {
+            $_SESSION['created'] = true;
+            $_SESSION['sid'] = $sid;
+            $_SESSION['uid'] = $user->getId();
+            return true;
+        } else {
+            return false;
         }
-
-        $roles = $this->roleRepository->getRolesByUserId("1");
-
-        print_r($roles);
     }
-
 
     private function encryptPassword(string $password) : string {
         return password_hash($password, PASSWORD_DEFAULT, ["salt" => "paip123456789paip0paip123456789paip"]);
