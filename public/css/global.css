@@ -1,9 +1,20 @@
+@font-face {
+    font-family: OpenSans;
+    src: url(../fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf);
+    font-style: italic;
+}
+
+@font-face {
+    font-family: OpenSans;
+    src: url(../fonts/OpenSans-VariableFont_wdth,wght.ttf);
+    font-style: normal;
+}
+
 * {
     box-sizing: border-box;
 }
 
 body {
-    background-color: #edeff2;
     font-family: 'Open Sans', sans-serif;
     color: #6a859c;
     font-size: 16px;
@@ -14,35 +25,36 @@ body {
 .container {
     margin-left: auto;
     margin-right: auto;
-    max-width: 940px;
+    max-width: 58.75rem;
 }
 
-@media screen and (max-width: 991px) {
+@media screen and (max-width: 61.9375em) {
     .container {
-        max-width: 728px;
+        max-width: 45.5rem;
     }
 }
 
-@media screen and (max-width: 479px) {
+@media screen and (max-width: 29.9375em) {
     .container {
         max-width: none;
     }
 }
 
 main {
-    padding: 25px;
+    padding: 1.563rem;
 }
 
 .navigation-bar {
     background-color: #fff;
     position: relative;
     z-index: 1000;
-    height: 60px;
+    height: 3.75rem;
+    border-bottom: thin solid #000000;
 }
 
 .navigation-logo {
-    padding-top: 16px;
-    padding-bottom: 16px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     float: left;
     text-decoration: none;
 }
@@ -53,10 +65,10 @@ main {
     margin-bottom: 0;
     font-family: 'Open Sans', sans-serif;
     color: #69b9ff;
-    font-size: 25px;
-    line-height: 25px;
+    font-size: 1.563rem;
+    line-height: 1.563rem;
     font-weight: 300;
-    letter-spacing: 4px;
+    letter-spacing: 0.25rem;
     text-transform: uppercase;
 }
 
@@ -72,7 +84,7 @@ main {
     display: inline-block;
     vertical-align: top;
     text-decoration: none;
-    padding: 20px;
+    padding: 1.25rem;
     text-align: left;
     margin-left: auto;
     margin-right: auto;
@@ -89,15 +101,14 @@ main {
 .navigation-hamburger-button {
     position: relative;
     float: right;
-    padding: 15px;
-    font-size: 24px;
+    padding: 0.938rem;
     display: none;
     cursor: pointer;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 47.9375em) {
     .navigation-logo {
-        padding-left: 10px;
+        padding-left: 0.625rem;
     }
 
     .navigation-menu {
@@ -126,49 +137,47 @@ main {
 }
 
 .navigation-hamburger-icon {
-    height: 25px;
+    height: 1.563rem;
 }
 
 
 .footer {
-    padding-top: 35px;
-    padding-bottom: 35px;
+    padding-top: 2.188rem;
+    padding-bottom: 2.188rem;
 }
 
 .footer.center {
-    border-top: 1px solid #dbdbdb;
+    border-top: thin solid #dbdbdb;
     background-color: #383838;
     text-align: center;
 }
 
 .footer-text {
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 0.313rem;
+    margin-bottom: 0.313rem;
     color: #9e9e9e;
-    font-size: 16px;
 }
 
 
 .form input {
     display: block;
     width: 100%;
-    padding: 5px;
-    height: 45px;
-    margin: 5px 0 15px;
+    padding: 0.313rem;
+    height: 2.813rem;
+    margin: 0.313rem 0 0.938rem;
     border: 0 solid #000;
-    border-radius: 3px;
-    box-shadow: 0 0 0 1px rgba(64, 64, 71, 0.3);
+    border-radius: 0.188rem;
+    box-shadow: 0 0 0 0.063rem rgba(64, 64, 71, 0.3);
 }
 
 .form button {
     width: 100%;
     color: #fff;
-    font-size: 16px;
     text-transform: uppercase;
     background-color: #69b9ff;
-    padding: 12px 30px;
+    padding: 0.75rem 1.875rem;
     border: 0 solid #fff;
-    border-radius: 3px;
+    border-radius: 0.188rem;
     transition: background-color 300ms ease;
 }
 
@@ -185,7 +194,7 @@ button {
     background-color: #fff3cd;
     padding: 0.75rem 1.25rem;
     margin-bottom: 1rem;
-    border: 1px solid #ffeeba;
+    border: thin solid #ffeeba;
     border-radius: 0.25rem;
     display: none;
 }

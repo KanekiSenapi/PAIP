@@ -9,6 +9,7 @@ Router::get('', 'DefaultController');
 Router::get('home', 'DefaultController');
 
 Router::get('books', 'BooksController');
+Router::get('book', 'BooksController');
 
 Router::post('login', 'SecurityController');
 Router::post('register', 'SecurityController');

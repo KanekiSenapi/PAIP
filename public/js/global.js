@@ -8,3 +8,5 @@ function handleHamburgerNavigation() {
 
 
 navigationHamburgerButton.addEventListener("click", handleHamburgerNavigation)
+
+

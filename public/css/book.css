@@ -1,0 +1,22 @@
+section:not(:first-child) {
+    border-bottom: thin solid #7a7a7a;
+}
+
+section .section-heading {
+    color: #676770;
+    font-weight: 300;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+section .section-subheading.center {
+    color: #8e8e9c;
+    font-weight: 300;
+}
+section ul {
+    padding-left: 0;
+}
+section li {
+    list-style-type: none;
+}
+

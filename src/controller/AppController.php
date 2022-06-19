@@ -10,6 +10,7 @@ class AppController {
     private $request;
 
     private string $APP_TITLE_TAG = "{{APP.TITLE}}";
+    private string $APP_TEMPLATE_NAME_TAG = "{{APP.TEMPLATE_NAME}}";
     private string $APP_CONTENT_TAG = "{{APP.CONTENT}}";
     private string $APP_HEADER_TAG = "{{APP.HEADER}}";
     private string $APP_FOOTER_TAG = "{{APP.FOOTER}}";
@@ -34,7 +35,7 @@ class AppController {
     }
 
     private function prepareContent(string $template = null, array $variables = []): string {
-        $templatePath = "public/views/" . $template . ".html";
+        $templatePath = "public/views/" . $template . ".php";
 
         if (file_exists($templatePath)) {
             extract($variables);
@@ -50,7 +51,7 @@ class AppController {
     }
 
     private function prepareElement(string $template = null, array $variables = []): string {
-        $templatePath = "public/elements/" . $template . ".html";
+        $templatePath = "public/elements/" . $template . ".php";
         $output = "";
 
         if (file_exists($templatePath)) {
@@ -70,6 +71,7 @@ class AppController {
         $footer = $this->prepareElement("footer");
 
         $basic = str_replace($this->APP_TITLE_TAG, $title, $basic);
+        $basic = str_replace($this->APP_TEMPLATE_NAME_TAG, $templateName, $basic);
         $basic = str_replace($this->APP_CONTENT_TAG, $content, $basic);
 
         $basic = str_replace($this->APP_HEADER_TAG, $header, $basic);
@@ -92,6 +94,8 @@ class AppController {
             $sid = $_SESSION["sid"];
             if(!$this->sessionService->isSessionValid($sid, $uid)) {
                 session_unset();
+            } else {
+                $this->sessionService->updateSessionTimeLife($sid, $uid);
             }
         }
     }
