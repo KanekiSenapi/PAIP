@@ -1,0 +1,1 @@
+<img src="/public/images/404_not_found.png" alt="404 Page Not Found">

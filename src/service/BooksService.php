@@ -13,7 +13,7 @@ class BooksService {
         return $this->booksRepository->getAllLightBooks();
    }
 
-    public function getBookById($id): BookFull {
+    public function getBookById($id): ?BookFull {
         return $this->booksRepository->getBookById($id);
     }
 

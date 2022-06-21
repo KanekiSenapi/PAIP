@@ -1,5 +1,5 @@
-<div class="login-container">
-    <h2>Create a book</h2>
+<div>
+    <h2>Create a book metadata</h2>
     <form class="form register" action="bookCreate" method="POST">
         <div class="messages" style="<?=(isset($messages)) ? 'display: block' : ''?>">
             <?php
@@ -11,7 +11,7 @@
             ?>
         </div>
         <label for="authors-label">Authors</label>
-        <select name="authorsIds" id="authors-label" multiple required>
+        <select name="authorsIds[]" id="authors-label" multiple required>
         </select>
 
         <label for="publishers-label">Publisher</label>

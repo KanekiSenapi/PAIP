@@ -58,7 +58,7 @@ class BooksRepository extends Repository {
     INSERT INTO public.book_metadata_authors
     ("metadataId", "authorId")
     VALUES
-    (:metadataid, :authorid)
+    (:metadataId, :authorId)
     ';
 
     public function getAllLightBooks(): array {
@@ -84,8 +84,7 @@ class BooksRepository extends Repository {
         $book = $stmt->fetchObject( "BookFull");
 
         $connection = null;
-
-        return $book;
+        return $book ?: null;
 
     }
 
@@ -102,22 +101,20 @@ class BooksRepository extends Repository {
         $stmt->bindParam(":publishmentYear", $body['publishmentYear'] );
         $stmt->bindParam(":pagesNumber", $body['pagesNumber'] );
         $stmt->bindParam(":typeId", $body['typeId'] );
-        $stmt->execute();
-
+        $result = $stmt->execute();
         $bookMetadataId = $connection->lastInsertId();
-        if (!$bookMetadataId) {
+
+        if (!$result) {
             $connection->rollBack();
             return 0;
         }
-
-        print_r($body);
 
         foreach ($body['authorsIds'] as $authorId) {
             $stmt = $connection->prepare(self::$INSERT_NEW_METADATA_AUTHORS);
             $stmt->bindParam(":metadataId", $bookMetadataId);
             $stmt->bindParam(":authorId", $authorId);
-            $stmt->execute();
-            if (!$connection->lastInsertId()) {
+            $result = $stmt->execute();
+            if (!$result) {
                 $connection->rollBack();
                 return 0;
             }
