@@ -1,16 +1,14 @@
 <?php
 
-require_once __DIR__."/../repository/RoleRepository.php";
+require_once __DIR__ . "/../repository/AuthorRepository.php";
+require_once __DIR__ . "/../service/Service.php";
 
-class RoleService {
-    private RoleRepository $roleRepository;
+class AuthorService extends Service
+{
 
-    public function __construct() {
-        $this->roleRepository = new RoleRepository();
+    public function __construct()
+    {
+        $this->repository = new AuthorRepository();
     }
-
-   public function getRolesForUid(string $uid): array {
-        return $this->roleRepository->getRolesByUserId($uid);
-   }
 
 }

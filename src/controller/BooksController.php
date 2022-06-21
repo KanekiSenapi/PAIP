@@ -13,14 +13,28 @@ class BooksController extends AppController {
     }
 
 
-    public function books() {
-        $books = $this->booksService->getAllLightBooks();
-        $this->render("books", "Books", ['books' => $books], "books_view");
+    public function books($part) {
+        if (is_numeric($part)) {
+            $this->book($part);
+        } else {
+            $books = $this->booksService->getAllLightBooks();
+            $this->render("books", "Books", ['books' => $books], "books_view");
+        }
     }
 
     public function book($id) {
         $book = $this->booksService->getBookById($id);
         $this->render("book", "Book", ["book" => $book], "books_view");
     }
+
+    public function bookCreate() {
+        if ($this->isPost()) {
+            $bookId = $this->booksService->createNewBook($_POST);
+            HeaderUtils::redirectTo("books/{$bookId}");
+            return;
+        }
+        $this->render("bookCreate", "Book Creation", [], "books_create");
+    }
+
 
 }

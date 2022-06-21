@@ -1,34 +1,28 @@
 <?php
 
 require_once "AppController.php";
-require_once "src/service/BooksService.php";
+require_once "src/service/AuthorService.php";
+require_once "src/utils/HeaderUtils.php";
 
-class BooksController extends AppController {
+class AuthorsController extends AppController {
 
-    private BooksService $booksService;
+    private AuthorService $service;
 
     public function __construct() {
         parent::__construct();
-        $this->booksService = new BooksService();
+        $this->service = new AuthorService();
     }
 
 
-    public function books($part) {
-        if (is_numeric($part)) {
-            $this->book($part);
+    public function authors() {
+        if ($this->roleValidate("authors_view")) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($this->service->getAll());
         } else {
-            $books = $this->booksService->getAllLightBooks();
-            $this->render("books", "Books", ['books' => $books], "books_view");
+            HeaderUtils::redirectToHome();
         }
+
     }
 
-    public function book($id) {
-        $book = $this->booksService->getBookById($id);
-        $this->render("book", "Book", ["book" => $book], "books_view");
-    }
-
-    public function booksCreate() {
-        $this->render("bookCreate", "Book Creation", [], "books_create");
-    }
 
 }

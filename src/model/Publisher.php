@@ -1,10 +1,12 @@
 <?php
 
-class Type
+require_once "Model.php";
+
+class Publisher extends Model
 {
 
-    private $id;
-    private $name;
+    protected $id;
+    protected $name;
 
     public function getId()
     {

@@ -5,7 +5,7 @@ require_once __DIR__."/../model/User.php";
 
 class UserRepository extends Repository {
 
-    private static string $SELECT_BY_EMAIL = "SELECT * FROM public.users WHERE email = :email";
+    private static string $SELECT_BY_EMAIL = "SELECT id, email, password, name, surname, id FROM public.users WHERE email = :email";
     private static string $INSERT = "INSERT INTO public.users (email, password, name, surname) VALUES (:email, :password, :name, :surname)";
 
     public function getUserByEmail(string $email): ?User {

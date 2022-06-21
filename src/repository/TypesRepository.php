@@ -1,22 +1,11 @@
 <?php
 
 require_once "Repository.php";
-require_once __DIR__."/../model/Author.php";
+require_once __DIR__."/../model/Type.php";
 
-class AuthorRepository extends Repository {
+class TypesRepository extends Repository {
+    protected string $CLASS = "Type";
+    protected string $GET_ALL_FIELDS = "id,name";
+    protected string $GET_ALL_TABLE = "public.book_types";
 
-    private static string $SELECT_ALL = "SELECT id, fullname FROM public.book_authors";
-
-    public function getAll(): array {
-        $connection = $this->datasource->connect();
-
-        $stmt = $connection->prepare(self::$SELECT_ALL);
-        $stmt->execute();
-
-        $authors = $stmt->fetchAll(PDO::FETCH_CLASS, "Author");
-
-        $connection = null;
-
-        return $authors;
-    }
 }

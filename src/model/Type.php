@@ -1,10 +1,12 @@
 <?php
 
-class Type
+require_once "Model.php";
+
+class Type extends Model
 {
 
-    private $id;
-    private $name;
+    protected $id;
+    protected $name;
 
     public function getId()
     {

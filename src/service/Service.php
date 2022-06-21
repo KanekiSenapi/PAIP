@@ -2,15 +2,12 @@
 
 require_once __DIR__."/../repository/AuthorRepository.php";
 
-class AuthorService extends Service{
-    private AuthorRepository $authorRepository;
+abstract class Service {
+    protected Repository $repository;
 
-    public function __construct() {
-        $this->authorRepository = new AuthorRepository();
-    }
 
    public function getAll(): array {
-        return $this->authorRepository->getAll();
+        return $this->repository->getAll();
    }
 
 }

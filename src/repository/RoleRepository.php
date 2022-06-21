@@ -17,17 +17,17 @@ class RoleRepository extends Repository {
         $stmt->bindParam(':id', $uid);
         $stmt->execute();
 
-        $roles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $roles = $stmt->fetchAll(PDO::FETCH_CLASS, "Role");
 
         $connection = null;
 
         return $this->mapToRolesNameList($roles);
     }
 
-    private function mapToRolesNameList($roles): array {
+    private function mapToRolesNameList(array $roles): array {
         $mappedRoles = [];
         foreach ($roles as $role) {
-            $mappedRoles[] = $role['name'];
+            $mappedRoles[] = $role->getName();
         }
         return $mappedRoles;
     }

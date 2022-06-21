@@ -2,8 +2,12 @@
 
 require_once "src/controller/DefaultController.php";
 require_once "src/controller/SecurityController.php";
+
 require_once "src/controller/BooksController.php";
-require_once "src/service/SessionService.php";
+require_once "src/controller/AuthorsController.php";
+require_once "src/controller/TypesController.php";
+require_once "src/controller/PublishersController.php";
+require_once "src/utils/HeaderUtils.php";
 
 class Router {
     public static array $routes = [];
@@ -21,8 +25,7 @@ class Router {
         $action = $urlParts[0];
 
         if (!array_key_exists($action, self::$routes)) {
-            $url = "http://$_SERVER[HTTP_HOST]";
-            header("Location: {$url}/home");
+            HeaderUtils::redirectToHome();
         }
 
         $controller = self::$routes[$action];

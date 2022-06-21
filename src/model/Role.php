@@ -1,15 +1,20 @@
 <?php
 
-class Role {
+require_once "Model.php";
 
-    private string $name;
+class Role extends Model {
 
-    public function __construct(string $name) {
-        $this->name = $name;
-    }
+    protected string $name;
 
     public function getName(): string {
         return $this->name;
     }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+
 
 }

@@ -47,6 +47,20 @@ class BooksRepository extends Repository {
             b.id, bm.isbn, bm.title, bm.description, bt.name, bp.name, bm."publishmentYear", bm."pagesNumber";
     ';
 
+    private static string $INSERT_NEW_METADATA = '
+    INSERT INTO public.book_metadata
+    (isbn, title, description, "publisherId", "publishmentYear", "pagesNumber", "typeId")
+    VALUES
+    (:isbn, :title, :description, :publisherId, :publishmentYear, :pagesNumber, :typeId)
+    ';
+
+    private static string $INSERT_NEW_METADATA_AUTHORS = '
+    INSERT INTO public.book_metadata_authors
+    ("metadataId", "authorId")
+    VALUES
+    (:metadataid, :authorid)
+    ';
+
     public function getAllLightBooks(): array {
         $connection = $this->datasource->connect();
 
@@ -73,6 +87,47 @@ class BooksRepository extends Repository {
 
         return $book;
 
+    }
+
+    public function createNewBookMetadata($body): int {
+        $connection = $this->datasource->connect();
+
+        $connection->beginTransaction();
+
+        $stmt = $connection->prepare(self::$INSERT_NEW_METADATA);
+        $stmt->bindParam(":isbn", $body['isbn'] );
+        $stmt->bindParam(":title", $body['title'] );
+        $stmt->bindParam(":description", $body['description'] );
+        $stmt->bindParam(":publisherId", $body['publisherId'] );
+        $stmt->bindParam(":publishmentYear", $body['publishmentYear'] );
+        $stmt->bindParam(":pagesNumber", $body['pagesNumber'] );
+        $stmt->bindParam(":typeId", $body['typeId'] );
+        $stmt->execute();
+
+        $bookMetadataId = $connection->lastInsertId();
+        if (!$bookMetadataId) {
+            $connection->rollBack();
+            return 0;
+        }
+
+        print_r($body);
+
+        foreach ($body['authorsIds'] as $authorId) {
+            $stmt = $connection->prepare(self::$INSERT_NEW_METADATA_AUTHORS);
+            $stmt->bindParam(":metadataId", $bookMetadataId);
+            $stmt->bindParam(":authorId", $authorId);
+            $stmt->execute();
+            if (!$connection->lastInsertId()) {
+                $connection->rollBack();
+                return 0;
+            }
+        }
+
+        $connection->commit();
+
+        $connection = null;
+
+        return $bookMetadataId;
     }
 
 }

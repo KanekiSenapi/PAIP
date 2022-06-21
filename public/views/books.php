@@ -1,4 +1,7 @@
 <div class="table-conteiner">
+    <?php if (in_array("books_create", $_SESSION['roles'])) { ?>
+    <a href="/bookCreate" class="button positive">Add</a>
+    <?php } ?>
     <table>
         <thead>
         <tr>

@@ -3,7 +3,7 @@
 require_once "AppController.php";
 require_once "src/service/PublisherService.php";
 
-class PublisherController extends AppController {
+class PublishersController extends AppController {
 
     private PublisherService $service;
 
@@ -13,9 +13,13 @@ class PublisherController extends AppController {
     }
 
 
-    public function publisher() {
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode($this->service->getAll());
+    public function publishers() {
+        if ($this->roleValidate("publishers_view")) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($this->service->getAll());
+        } else {
+            HeaderUtils::redirectToHome();
+        }
     }
 
 

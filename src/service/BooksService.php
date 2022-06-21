@@ -17,4 +17,9 @@ class BooksService {
         return $this->booksRepository->getBookById($id);
     }
 
+    public function createNewBook($body): int {
+        //check ISBN already used
+        return $this->booksRepository->createNewBookMetadata($body);
+    }
+
 }

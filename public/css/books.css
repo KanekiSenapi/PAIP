@@ -52,3 +52,10 @@ tbody tr:hover {
 }
 
 
+.button.positive{
+    background-color: #2eb659;
+}
+
+.button.positive:hover {
+    background-color: #3cde6f;;
+}

@@ -159,7 +159,7 @@ main {
 }
 
 
-.form input {
+.form input, .form select, .form textarea {
     display: block;
     width: 100%;
     padding: 0.313rem;
@@ -168,6 +168,10 @@ main {
     border: 0 solid #000;
     border-radius: 0.188rem;
     box-shadow: 0 0 0 0.063rem rgba(64, 64, 71, 0.3);
+}
+
+.form textarea {
+    height: 10rem;
 }
 
 .form button {
@@ -197,4 +201,22 @@ button {
     border: thin solid #ffeeba;
     border-radius: 0.25rem;
     display: none;
+}
+
+.button {
+    display: inline-block;
+    padding: 0.75rem 1.875rem;
+    border-radius: 0.25rem;
+    background-color: #2e80b6;
+    transition: background-color 300ms ease;
+    color: #fff;
+    font-size: 0.9rem;
+    line-height: 1rem;
+    letter-spacing: 0.175rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.button:hover {
+    background-color: #69b9ff;;
 }

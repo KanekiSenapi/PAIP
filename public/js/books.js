@@ -4,7 +4,7 @@ const bookRows = document.querySelectorAll(".book-row");
 function handleBookRowClick(e) {
     e.stopPropagation()
     let bookId = e.target.parentElement.getAttribute("key")
-    window.location.href = '/book/' + bookId
+    window.location.href ="/books/" + bookId
     console.log(window.location.href)
 }
 

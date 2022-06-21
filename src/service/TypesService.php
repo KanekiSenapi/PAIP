@@ -1,16 +1,15 @@
 <?php
 
-require_once __DIR__."/../repository/AuthorRepository.php";
+require_once __DIR__ . "/../repository/TypesRepository.php";
+require_once __DIR__ . "/../service/Service.php";
 
-class AuthorService {
-    private AuthorRepository $authorRepository;
+class TypesService extends Service
+{
 
-    public function __construct() {
-        $this->authorRepository = new AuthorRepository();
+    public function __construct()
+    {
+        $this->repository = new TypesRepository();
     }
 
-   public function getAll(): array {
-        return $this->authorRepository->getAll();
-   }
 
 }

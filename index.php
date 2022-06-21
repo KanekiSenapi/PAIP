@@ -9,11 +9,19 @@ Router::get('', 'DefaultController');
 Router::get('home', 'DefaultController');
 
 Router::get('books', 'BooksController');
-Router::get('book', 'BooksController');
+Router::get('bookCreate', 'BooksController');
+
+Router::get('authors', 'AuthorsController');
+Router::get('types', 'TypesController');
+Router::get('publishers', 'PublishersController');
+
+Router::get('sessionValidity', 'SecurityController');
 
 Router::post('login', 'SecurityController');
 Router::post('register', 'SecurityController');
 Router::post('logout', 'SecurityController');
 Router::post('roles', 'SecurityController');
+
+Router::post('bookCreate', 'BooksController');
 
 Router::run($path);

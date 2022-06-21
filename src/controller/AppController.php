@@ -2,10 +2,12 @@
 
 require_once __DIR__."/../service/SessionService.php";
 require_once __DIR__."/../service/RoleService.php";
+require_once "src/utils/HeaderUtils.php";
 
 class AppController {
     protected SessionService $sessionService;
     protected RoleService $roleService;
+    protected array $session;
 
     private $request;
 
@@ -17,6 +19,7 @@ class AppController {
 
     public function __construct() {
         session_start();
+        $this->session = $_SESSION;
         $this->request = $_SERVER['REQUEST_METHOD'];
         $this->sessionService = new SessionService();
         $this->roleService = new RoleService();
@@ -25,8 +28,7 @@ class AppController {
     protected function render(string $template = null, string $title = "", array $variables = [], string $requiredRoles = "") {
         $this->sessionValidity();
         if (!$this->roleValidate($requiredRoles)) {
-            $url = "http://$_SERVER[HTTP_HOST]";
-            header("Location: {$url}/home");
+            HeaderUtils::redirectToHome();
         }
 
         $content = $this->prepareContent($template, $variables);
@@ -100,7 +102,7 @@ class AppController {
         }
     }
 
-    private function roleValidate(string $requiredRole = ""):bool {
+    protected function roleValidate(string $requiredRole = ""):bool {
         if (empty($requiredRole)) {
             return true;
         } else {

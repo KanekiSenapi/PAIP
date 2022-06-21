@@ -4,7 +4,13 @@
 
         <nav class="navigation-menu">
             <a href="/" class="navigation-link <?php if(!isset($current) || $current == 'home') echo 'navigation-link-current' ?>">Home</a>
+            <?php
+            if($_SESSION['created'] && in_array("books_view", $_SESSION['roles'])) {
+            ?>
             <a href="/books" class="navigation-link <?php if(isset($current) && $current == 'books') echo 'navigation-link-current' ?>">Books</a>
+            <?php
+            }
+            ?>
             <a href="/about" class="navigation-link <?php if(isset($current) && $current == 'about') echo 'navigation-link-current' ?>">About</a>
             <?php
                 if($_SESSION['created']) {

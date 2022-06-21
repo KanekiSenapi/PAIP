@@ -1,21 +1,25 @@
 <?php
 
 require_once "AppController.php";
-require_once "src/service/AuthorService.php";
+require_once "src/service/TypesService.php";
 
-class AuthorsController extends AppController {
+class TypesController extends AppController {
 
-    private AuthorService $authorService;
+    private TypesService $service;
 
     public function __construct() {
         parent::__construct();
-        $this->authorService = new AuthorService();
+        $this->service = new TypesService();
     }
 
 
-    public function authors() {
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode($this->authorService->getAll());
+    public function types() {
+        if ($this->roleValidate("types_view")) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($this->service->getAll());
+        } else {
+            HeaderUtils::redirectToHome();
+        }
     }
 
 

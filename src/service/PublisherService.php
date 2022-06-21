@@ -1,14 +1,14 @@
 <?php
 
-require_once __DIR__ . "/../repository/TypesRepository.php";
+require_once __DIR__ . "/../repository/PublishersRepository.php";
 require_once __DIR__ . "/../service/Service.php";
 
-class TypesService extends Service
+class PublisherService extends Service
 {
 
     public function __construct()
     {
-        $this->repository = new TypesRepository();
+        $this->repository = new PublishersRepository();
     }
 
 

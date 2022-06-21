@@ -30,24 +30,22 @@ class SecurityController extends AppController {
         } else if ($user->getPassword() !== $password) {
             $this->render("login", "Login", ["messages" => ["Wrong password!"]]);
         } else if ($this->prepareSession($user)) {
-            $url = "http://$_SERVER[HTTP_HOST]";
-            header("Location: {$url}/home");
+            HeaderUtils::redirectToHome();
         } else {
             $this->render("login", "Login", ["messages" => ["Something went wrong! Try again."]]);
         }
     }
 
     public function logout() {
-        $url = "http://$_SERVER[HTTP_HOST]";
         if (!$this->isGet()) {
-            header("Location: {$url}/home");
+            HeaderUtils::redirectToHome();
             return;
         }
 
         $sid = session_id();
         $this->sessionService->deactivateSessionForSid($sid);
         session_destroy();
-        header("Location: {$url}/home");
+        HeaderUtils::redirectToHome();
     }
 
     public function register() {
@@ -83,6 +81,21 @@ class SecurityController extends AppController {
         }
     }
 
+    public function sessionValidity() {
+        if ($_SESSION) {
+            $sid = $_SESSION["sid"];
+            $uid = $_SESSION["uid"];
+            $valid = $this->sessionService->isSessionValid($sid, $uid);
+            $logged = true;
+        } else {
+            $valid = false;
+            $logged = false;
+        }
+
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(["valid" => $valid, "logged" => $logged]);
+    }
+
     public function prepareSession(User $user): bool {
         $this->sessionService->deactivateSessionForUid($user->getId());
         session_regenerate_id(true);
@@ -94,6 +107,7 @@ class SecurityController extends AppController {
             $_SESSION['created'] = true;
             $_SESSION['sid'] = $sid;
             $_SESSION['uid'] = $user->getId();
+            $_SESSION['roles'] = $this->roleService->getRolesForUid($user->getId());
             return true;
         } else {
             return false;
