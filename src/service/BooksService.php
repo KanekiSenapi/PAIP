@@ -1,25 +1,23 @@
 <?php
 
 require_once __DIR__."/../repository/BooksRepository.php";
+require_once __DIR__."/../service/Service.php";
 
-class BooksService {
-    private BooksRepository $booksRepository;
-
+class BooksService extends Service {
     public function __construct() {
-        $this->booksRepository = new BooksRepository();
+        $this->repository = new BooksRepository();
     }
 
    public function getAllLightBooks(): array {
-        return $this->booksRepository->getAllLightBooks();
+        return $this->repository->getAllLightBooks();
    }
 
     public function getBookById($id): ?BookFull {
-        return $this->booksRepository->getBookById($id);
+        return $this->repository->getBookById($id);
     }
 
-    public function createNewBook($body): int {
-        //check ISBN already used
-        return $this->booksRepository->createNewBookMetadata($body);
+    public function addBook($metadataId): int {
+        return $this->repository->addBook($metadataId);
     }
 
 }

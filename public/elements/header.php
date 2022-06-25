@@ -27,7 +27,7 @@
         </nav>
 
         <div class="navigation-hamburger-button">
-            <img src="./public/images/menu-burger.png" class="navigation-hamburger-icon"/>
+            <img src="/public/images/menu-burger.png" class="navigation-hamburger-icon"/>
         </div>
     </div>
 

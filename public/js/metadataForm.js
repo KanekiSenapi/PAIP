@@ -10,12 +10,10 @@ function fetchAuthors() {
 
 function fetchTypes() {
     fetchGetAll("/types", "types-label", "id", "name")
-
 }
 
 function fetchPublishers() {
     fetchGetAll("/publishers", "publishers-label", "id", "name")
-
 }
 
 function fetchGetAll(endpoint, selectId, idFieldName, contextFieldName) {

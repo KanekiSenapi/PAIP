@@ -7,6 +7,7 @@ require_once "src/controller/BooksController.php";
 require_once "src/controller/AuthorsController.php";
 require_once "src/controller/TypesController.php";
 require_once "src/controller/PublishersController.php";
+require_once "src/controller/MetadataController.php";
 require_once "src/utils/HeaderUtils.php";
 
 class Router {

@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__."/../repository/AuthorRepository.php";
-
 abstract class Service {
     protected Repository $repository;
 
@@ -9,5 +7,9 @@ abstract class Service {
    public function getAll(): array {
         return $this->repository->getAll();
    }
+
+    public function deleteById(int $id): bool {
+        return $this->repository->deleteById($id);
+    }
 
 }

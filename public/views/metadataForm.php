@@ -1,12 +1,10 @@
 <div>
     <h2>Create a book metadata</h2>
-    <form class="form register" action="bookCreate" method="POST">
-        <div class="messages" style="<?=(isset($messages)) ? 'display: block' : ''?>">
+    <form class="form register" action="metadata" method="POST">
+        <div class="messages" style="<?=(isset($message)) ? 'display: block' : ''?>">
             <?php
-            if(isset($messages)){
-                foreach($messages as $message) {
+            if(isset($message)) {
                     echo $message;
-                }
             }
             ?>
         </div>

@@ -3,8 +3,13 @@
 require_once "Repository.php";
 require_once __DIR__."/../model/BookLight.php";
 require_once __DIR__."/../model/BookFull.php";
+require_once __DIR__."/../model/BookMini.php";
+
 
 class BooksRepository extends Repository {
+    protected string $CLASS = "BookMini";
+    protected string $GET_ALL_FIELDS = "id,metadataId";
+    protected string $GET_ALL_TABLE = "public.books";
 
     private static string $SELECT_ALL_LIGHT_BOOKS = '
         SELECT
@@ -47,18 +52,11 @@ class BooksRepository extends Repository {
             b.id, bm.isbn, bm.title, bm.description, bt.name, bp.name, bm."publishmentYear", bm."pagesNumber";
     ';
 
-    private static string $INSERT_NEW_METADATA = '
-    INSERT INTO public.book_metadata
-    (isbn, title, description, "publisherId", "publishmentYear", "pagesNumber", "typeId")
+    private static string $INSERT_BOOK= '
+    INSERT INTO public.books
+        ("metadataId")
     VALUES
-    (:isbn, :title, :description, :publisherId, :publishmentYear, :pagesNumber, :typeId)
-    ';
-
-    private static string $INSERT_NEW_METADATA_AUTHORS = '
-    INSERT INTO public.book_metadata_authors
-    ("metadataId", "authorId")
-    VALUES
-    (:metadataId, :authorId)
+        (:metadataId)
     ';
 
     public function getAllLightBooks(): array {
@@ -88,43 +86,21 @@ class BooksRepository extends Repository {
 
     }
 
-    public function createNewBookMetadata($body): int {
+    public function addBook($metadataId): int {
         $connection = $this->datasource->connect();
+        $bookId = 0;
 
-        $connection->beginTransaction();
-
-        $stmt = $connection->prepare(self::$INSERT_NEW_METADATA);
-        $stmt->bindParam(":isbn", $body['isbn'] );
-        $stmt->bindParam(":title", $body['title'] );
-        $stmt->bindParam(":description", $body['description'] );
-        $stmt->bindParam(":publisherId", $body['publisherId'] );
-        $stmt->bindParam(":publishmentYear", $body['publishmentYear'] );
-        $stmt->bindParam(":pagesNumber", $body['pagesNumber'] );
-        $stmt->bindParam(":typeId", $body['typeId'] );
+        $stmt = $connection->prepare(self::$INSERT_BOOK);
+        $stmt->bindParam(":metadataId", $metadataId );
         $result = $stmt->execute();
-        $bookMetadataId = $connection->lastInsertId();
-
-        if (!$result) {
-            $connection->rollBack();
-            return 0;
+        if ($result) {
+            $bookId = $connection->lastInsertId();
         }
 
-        foreach ($body['authorsIds'] as $authorId) {
-            $stmt = $connection->prepare(self::$INSERT_NEW_METADATA_AUTHORS);
-            $stmt->bindParam(":metadataId", $bookMetadataId);
-            $stmt->bindParam(":authorId", $authorId);
-            $result = $stmt->execute();
-            if (!$result) {
-                $connection->rollBack();
-                return 0;
-            }
-        }
-
-        $connection->commit();
 
         $connection = null;
 
-        return $bookMetadataId;
+        return $bookId;
     }
 
 }

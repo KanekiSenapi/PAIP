@@ -215,8 +215,25 @@ button {
     letter-spacing: 0.175rem;
     text-decoration: none;
     text-transform: uppercase;
+    margin: 0.625rem;
 }
 
 .button:hover {
     background-color: #69b9ff;;
+}
+
+.button.positive{
+    background-color: #2eb659;
+}
+
+.button.positive:hover {
+    background-color: #3cde6f;;
+}
+
+.button.negative{
+    background-color: #b62e2e;
+}
+
+.button.negative:hover {
+    background-color: #de3c3c;;
 }

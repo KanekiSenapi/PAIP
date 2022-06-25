@@ -90,6 +90,10 @@ class AppController {
         return $this->request === 'POST';
     }
 
+    protected function isDelete(): bool {
+        return $this->request === 'DELETE';
+    }
+
     private function sessionValidity() {
         if($_SESSION["created"]) {
             $uid = $_SESSION["uid"];
