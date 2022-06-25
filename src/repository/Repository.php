@@ -33,11 +33,11 @@ class Repository {
 
         $stmt = $connection->prepare($this->prepareDynamicQuery($this->DELETE_BY_ID));
         $stmt->bindParam(":id", $id);
-        $stmt->execute();
+        $return = $stmt->execute();
 
         $connection = null;
 
-        return $stmt;
+        return $return;
     }
 
     protected function prepareDynamicQuery($query) : string{

@@ -34,14 +34,18 @@ class BooksController extends AppController {
         if ($this->isGet() && $this->roleValidate("books_view")) {
             $book = $this->booksService->getBookById($id);
             if ($book) {
-                $this->render("book", "Book", ["book" => $book], "books_view");
+                $this->render("book", "Book", array_merge($_GET, ["book" => $book]), "books_view");
             } else {
                 $this->render("404", "Not Found", [], "");
             }
         } else if ($this->isDelete()) {
-            echo $this->booksService->deleteById($id);
+            if ($this->booksService->deleteById($id)) {
+                header("HTTP/1.1 200 OK");
+            } else {
+                header("HTTP/1.1 400 Bad Request");
+            }
         } else {
-
+            HeaderUtils::redirectToHome();
         }
     }
 

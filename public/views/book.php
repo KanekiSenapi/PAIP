@@ -1,3 +1,11 @@
+<div class="messages" style="<?=(isset($message)) ? 'display: block' : ''?>">
+    <?php
+    if(isset($message)){
+            echo $message;
+    }
+    ?>
+</div>
+
 <div class="book-container">
 
     <section>
@@ -31,5 +39,8 @@
         </ul>
     </section>
 
+    <?php if (in_array("books_delete", $_SESSION['roles'])) { ?>
+        <a href="/" class="button negative" id="delete-book">Delete a book</a>
+    <?php } ?>
 
 </div>

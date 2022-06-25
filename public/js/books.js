@@ -5,7 +5,6 @@ function handleBookRowClick(e) {
     e.stopPropagation()
     let bookId = e.target.parentElement.getAttribute("key")
     window.location.href ="/books/" + bookId
-    console.log(window.location.href)
 }
 
 
