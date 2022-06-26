@@ -15,7 +15,7 @@ class BorrowsRepository extends Repository {
         SELECT
         
             br.id as id,
-            u.name as "borrowerName",
+            concat(u.name, \' \', u.surname) as "borrowerName",
             br."bookId" as "bookId",
             bm.title as "bookTitle",
             string_agg(ba.fullname, \', \') as "bookAuthors",
@@ -34,7 +34,7 @@ class BorrowsRepository extends Repository {
             br."returnedOn" IS NULL
         
         GROUP BY
-            bm.title, br."bookId", u.name, br.id, br."bookId", br."borrowedOn"
+            bm.title, br."bookId", u.name, u.surname, br.id, br."bookId", br."borrowedOn"
         
         ORDER BY
             br."bookId", br."borrowedOn";
