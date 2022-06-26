@@ -22,7 +22,7 @@ class BooksController extends AppController {
                 header("HTTP/1.1 200 OK");
                 HeaderUtils::redirectTo("booksView/{$bookId}");
             } else {
-                header("HTTP/1.1 400 Bad Request");
+                header("HTTP/1.1 401 Bad Request");
                 HeaderUtils::redirectTo("bookForm");
             }
         } else {
@@ -51,8 +51,11 @@ class BooksController extends AppController {
                 $this->render("404", "Not Found", [], "");
             }
         } else if ($this->isDelete()) {
-            if ($this->service->deleteById($id)) {
+            $deleteById = $this->service->deleteByIdDetailed($id);
+            if ($deleteById == 1) {
                 header("HTTP/1.1 200 OK");
+            } else if ($deleteById == -2){
+                header("HTTP/1.1 409 Conflict");
             } else {
                 header("HTTP/1.1 400 Bad Request");
             }

@@ -6,15 +6,17 @@ const historyContainer = document.querySelector("#history-body");
 function handleDeleteButton(e) {
     e.stopPropagation()
     e.preventDefault()
-    let url = window.location.href;
+    let url = window.location.href .split("?")[0];
 
     fetch(url,
         {method: "DELETE"})
         .then(response => {
                 if (response.status === 200) {
                     window.location.href = "/booksView/";
+                } else if (response.status === 409) {
+                    window.location.href = url + "?message=Can not delete borrowed book."
                 } else {
-                    window.location.href += "?message=Something went wrong. Try again."
+                    window.location.href = url + "?message=Something went wrong. Try again."
                 }
             }
         )

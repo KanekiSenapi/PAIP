@@ -37,6 +37,7 @@
         </ul>
     </section>
 
+    <?php if (in_array("books_delete", $_SESSION['roles'])) { ?>
     <section>
         <h4>History</h4>
         <div class="table-container">
@@ -55,8 +56,9 @@
             </table>
         </div>
     </section>
+    <?php } ?>
 
-    <?php if (in_array("books_delete", $_SESSION['roles'])) { ?>
+    <?php if (in_array("borrows_view", $_SESSION['roles'])) { ?>
         <a href="/" class="button negative" id="delete-book">Delete a book</a>
     <?php } ?>
 

@@ -22,7 +22,7 @@ class BorrowsService extends Service
     }
 
     public function borrow($body): int {
-        if ($this->repository->isBorrowed($body['bookId'])) {
+        if ($this->isBorrowed($body['bookId'])) {
             return -1;
         }
         $body['returnOn'] = $this->prepareReturnOn();
@@ -37,10 +37,15 @@ class BorrowsService extends Service
         return $this->repository->getByBookId($bid);
     }
 
+    public function isBorrowed($bid): bool {
+        return $this->repository->isBorrowed($bid);
+    }
+
     private function prepareReturnOn(): int {
         $date = new DateTime();
         $now = $date->getTimestamp();
         return $now + $this->defaultBorrowTime;
     }
+
 
 }

@@ -4,7 +4,7 @@ require_once __DIR__."/../repository/SessionRepository.php";
 
 class SessionService {
     private SessionRepository $sessionRepository;
-    private int $validityTimeS = 180;
+    private int $validityTimeS = 900;
 
     public function __construct() {
         $this->sessionRepository = new SessionRepository();

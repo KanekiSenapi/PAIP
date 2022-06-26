@@ -44,9 +44,9 @@ class BorrowsRepository extends Repository {
         SELECT
         
             br.id as id,
-            u.name as "borrowerName",
-            u2.name as "lenderName",
-            bm.id as "bookId",
+            concat(u.name, \' \', u.surname) as "borrowerName",
+            concat(u2.name, \' \', u2.surname) as "lenderName",
+            b.id as "bookId",
             bm.title as "bookTitle",
             string_agg(ba.fullname, \', \') as "bookAuthors",
             br."borrowedOn" as borrowedOn,
@@ -66,7 +66,7 @@ class BorrowsRepository extends Repository {
                 br.id = :id
         
         GROUP BY
-            br.id, u.name, u2.name, bm.id, bm.title , br."borrowedOn", br."returnOn", br."returnedOn"
+            br.id, u.name, u.surname, u2.name, u2.surname, b.id, bm.title , br."borrowedOn", br."returnOn", br."returnedOn"
     ';
 
     private static string $INSERT = '
@@ -168,10 +168,10 @@ class BorrowsRepository extends Repository {
         $stmt->bindParam(':bid', $bid);
         $stmt->execute();
 
-        $borrowed = $stmt->fetch( PDO::FETCH_ASSOC);
+        $borrowed = $stmt->fetch( PDO::FETCH_ASSOC)['count'];
 
         $connection = null;
-        return $borrowed === 1;
+        return $borrowed > 0;
     }
 
     public function getByBookId($bid): array {
