@@ -94,6 +94,10 @@ class AppController {
         return $this->request === 'DELETE';
     }
 
+    protected function isPatch(): bool {
+        return $this->request === 'PATCH';
+    }
+
     private function sessionValidity() {
         if($_SESSION["created"]) {
             $uid = $_SESSION["uid"];

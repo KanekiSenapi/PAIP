@@ -2,7 +2,7 @@
     <a href="/metadataForm" class="button positive">Add metadata</a>
     <a href="/bookForm" class="button positive">Add book</a>
 <?php } ?>
-<div class="table-conteiner">
+<div class="table-container">
     <table>
         <thead>
         <tr>

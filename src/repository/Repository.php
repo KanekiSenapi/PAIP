@@ -9,7 +9,7 @@ class Repository {
     protected string $GET_ALL_TABLE = "none";
     protected string $CLASS = "none";
 
-    protected $datasource;
+    protected Datasource $datasource;
 
     public function __construct() {
         $this->datasource = new Datasource();

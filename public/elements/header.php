@@ -4,6 +4,7 @@
 
         <nav class="navigation-menu">
             <a href="/" class="navigation-link <?php if(!isset($current) || $current == 'home') echo 'navigation-link-current' ?>">Home</a>
+
             <?php
             if($_SESSION['created'] && in_array("books_view", $_SESSION['roles'])) {
             ?>
@@ -11,7 +12,17 @@
             <?php
             }
             ?>
+
+            <?php
+            if($_SESSION['created'] && in_array("borrows_view", $_SESSION['roles'])) {
+                ?>
+                <a href="/borrows" class="navigation-link <?php if(isset($current) && $current == 'borrows') echo 'navigation-link-current' ?>">Borrows</a>
+                <?php
+            }
+            ?>
+
             <a href="/about" class="navigation-link <?php if(isset($current) && $current == 'about') echo 'navigation-link-current' ?>">About</a>
+
             <?php
                 if($_SESSION['created']) {
             ?>

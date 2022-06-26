@@ -2,7 +2,7 @@
 
 require_once "AppController.php";
 require_once __DIR__."/../repository/UserRepository.php";
-require_once __DIR__."/../model/User.php";
+require_once __DIR__."/../model/security/User.php";
 
 class SecurityController extends AppController {
 

@@ -1,7 +1,7 @@
 <?php
 
 require_once "Repository.php";
-require_once __DIR__."/../model/Role.php";
+require_once __DIR__."/../model/security/Role.php";
 
 class RoleRepository extends Repository {
 

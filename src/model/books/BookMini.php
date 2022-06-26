@@ -1,10 +1,12 @@
 <?php
 
-class BookMini
+require_once __DIR__."/../Model.php";
+
+class BookMini extends Model
 {
 
-    private $id;
-    private $metadataId;
+    protected $id;
+    protected $metadataId;
 
     public function getId()
     {

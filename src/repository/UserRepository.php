@@ -1,9 +1,13 @@
 <?php
 
 require_once "Repository.php";
-require_once __DIR__."/../model/User.php";
+require_once __DIR__."/../model/security/User.php";
+require_once __DIR__."/../model/user/UserList.php";
 
 class UserRepository extends Repository {
+    protected string $GET_ALL_FIELDS = "id, concat(name, ' ' ,surname) as fullname";
+    protected string $GET_ALL_TABLE = "public.users";
+    protected string $CLASS = "UserList";
 
     private static string $SELECT_BY_EMAIL = "SELECT id, email, password, name, surname, id FROM public.users WHERE email = :email";
     private static string $INSERT = "INSERT INTO public.users (email, password, name, surname) VALUES (:email, :password, :name, :surname)";

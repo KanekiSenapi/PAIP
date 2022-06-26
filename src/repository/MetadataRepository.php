@@ -1,7 +1,7 @@
 <?php
 
 require_once "Repository.php";
-require_once __DIR__."/../model/BookMetadataLight.php";
+require_once __DIR__."/../model/metadata/BookMetadataLight.php";
 
 class MetadataRepository extends Repository {
     protected string $CLASS = "BookMetadataLight";

@@ -1,7 +1,7 @@
 <?php
 
 require_once "Repository.php";
-require_once __DIR__."/../model/Session.php";
+require_once __DIR__."/../model/security/Session.php";
 
 class SessionRepository extends Repository {
 

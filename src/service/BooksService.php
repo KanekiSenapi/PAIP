@@ -20,4 +20,8 @@ class BooksService extends Service {
         return $this->repository->addBook($metadataId);
     }
 
+    public function getAllFreeBooks(): array {
+        return $this->repository->getAllFreeBooks();
+    }
+
 }

@@ -1,14 +1,15 @@
 <?php
 
 require_once "Repository.php";
-require_once __DIR__."/../model/BookLight.php";
-require_once __DIR__."/../model/BookFull.php";
-require_once __DIR__."/../model/BookMini.php";
+require_once __DIR__."/../model/books/BookLight.php";
+require_once __DIR__."/../model/books/BookFull.php";
+require_once __DIR__."/../model/books/BookMini.php";
+require_once __DIR__."/../model/books/BookList.php";
 
 
 class BooksRepository extends Repository {
     protected string $CLASS = "BookMini";
-    protected string $GET_ALL_FIELDS = "id,metadataId";
+    protected string $GET_ALL_FIELDS = "id,\"metadataId\"";
     protected string $GET_ALL_TABLE = "public.books";
 
     private static string $SELECT_ALL_LIGHT_BOOKS = '
@@ -51,6 +52,20 @@ class BooksRepository extends Repository {
         GROUP BY
             b.id, bm.isbn, bm.title, bm.description, bt.name, bp.name, bm."publishmentYear", bm."pagesNumber";
     ';
+
+    private static string $SELECT_FREE_BOOKS = '
+        SELECT
+            b.id as id,
+            concat(\'#\',b.id,\' - \',bm.title) as name
+        FROM
+            books b
+                INNER JOIN book_metadata bm on bm.id = b."metadataId"
+        
+        WHERE
+            false not in (SELECT DISTINCT br."returnedOn" IS NOT NULL FROM borrows br WHERE br."bookId" = b.id)
+
+    ';
+
 
     private static string $INSERT_BOOK= '
     INSERT INTO public.books
@@ -101,6 +116,19 @@ class BooksRepository extends Repository {
         $connection = null;
 
         return $bookId;
+    }
+
+    public function getAllFreeBooks(): array {
+        $connection = $this->datasource->connect();
+
+        $stmt = $connection->prepare(self::$SELECT_FREE_BOOKS);
+        $stmt->execute();
+
+        $books = $stmt->fetchAll(PDO::FETCH_CLASS, "BookList");
+
+        $connection = null;
+
+        return $books;
     }
 
 }

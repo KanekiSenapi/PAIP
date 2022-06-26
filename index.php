@@ -10,16 +10,20 @@ Router::get('home', 'DefaultController');
 
 #PHP View
 Router::get('books', 'BooksController');
+Router::get('borrows', 'BorrowsController');
 
 #JSON
 Router::get('authors', 'AuthorsController');
 Router::get('types', 'TypesController');
 Router::get('publishers', 'PublishersController');
 Router::get('metadata', 'MetadataController');
+Router::get('booksFree', 'BooksController');
+Router::get('usersList', 'UserController');
 
 #Form
 Router::get('metadataForm', 'MetadataController');
 Router::get('bookForm', 'BooksController');
+Router::get('borrowForm', 'BorrowsController');
 
 
 Router::get('sessionValidity', 'SecurityController');
