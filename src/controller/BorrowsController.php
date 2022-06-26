@@ -67,4 +67,13 @@ class BorrowsController extends AppController {
         }
     }
 
+    public function borrowHistory($id) {
+        if ($id && $this->isGet() && $this->roleValidate("borrows_view")) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($this->service->getForBook($id));
+        } else {
+            HeaderUtils::redirectToHome();
+        }
+    }
+
 }

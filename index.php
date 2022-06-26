@@ -12,6 +12,11 @@ Router::get('home', 'DefaultController');
 Router::get('books', 'BooksController');
 Router::get('borrows', 'BorrowsController');
 
+#Form
+Router::get('metadataForm', 'MetadataController');
+Router::get('bookForm', 'BooksController');
+Router::get('borrowForm', 'BorrowsController');
+
 #JSON
 Router::get('authors', 'AuthorsController');
 Router::get('types', 'TypesController');
@@ -19,13 +24,9 @@ Router::get('publishers', 'PublishersController');
 Router::get('metadata', 'MetadataController');
 Router::get('booksFree', 'BooksController');
 Router::get('usersList', 'UserController');
+Router::get('borrowHistory', 'BorrowsController');
 
-#Form
-Router::get('metadataForm', 'MetadataController');
-Router::get('bookForm', 'BooksController');
-Router::get('borrowForm', 'BorrowsController');
-
-
+#Security
 Router::get('sessionValidity', 'SecurityController');
 
 Router::post('login', 'SecurityController');

@@ -2,7 +2,7 @@
 
 require_once __DIR__ . "/../../Datasource.php";
 
-class Repository {
+abstract class Repository {
     private string $SELECT_ALL = "SELECT %fields% FROM %table%";
     private string $DELETE_BY_ID = "DELETE FROM %table% WHERE id = :id";
     protected string $GET_ALL_FIELDS = "*";

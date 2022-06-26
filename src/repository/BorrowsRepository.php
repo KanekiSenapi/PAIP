@@ -4,6 +4,7 @@ require_once "Repository.php";
 require_once __DIR__ . "/../model/borrows/BorrowMini.php";
 require_once __DIR__ . "/../model/borrows/BorrowLight.php";
 require_once __DIR__ . "/../model/borrows/BorrowFull.php";
+require_once __DIR__ . "/../model/borrows/BorrowHistory.php";
 
 class BorrowsRepository extends Repository {
     protected string $CLASS = "BorrowMini";
@@ -90,27 +91,18 @@ class BorrowsRepository extends Repository {
 
     private static string $SELECT_ALL_BY_BOOK_ID = '
         SELECT
-        
             br.id as id,
             u.name as "borrowerName",
-            bm.title as "bookTitle",
-            string_agg(ba.fullname, \', \') as "bookAuthors",
-            (SELECT br."returnedOn" IS NOT NULL) as returned,
-            br."returnOn" < now() as expired
+            br."borrowedOn" as borrowedOn,
+            (SELECT br."returnedOn" IS NOT NULL) as returned
         
         FROM
             borrows br
-            INNER JOIN users u on u.id = br."borrowerId"
-            INNER JOIN books b on b.id = br."bookId"
-            INNER JOIN book_metadata bm on bm.id = b."metadataId"
-            INNER JOIN book_metadata_authors bma on bm.id = bma."metadataId"
-            INNER JOIN book_authors ba on ba.id = bma."authorId"
+                INNER JOIN users u on u.id = br."borrowerId"
+                INNER JOIN books b on b.id = br."bookId"
         
-        WHERE 
-            br."bookId" = :bid
-        
-        GROUP BY
-            bm.title, u.name, br.id, br."bookId", br."borrowedOn"
+        WHERE
+                br."bookId" = :bid
         
         ORDER BY
             br."bookId", br."borrowedOn";
@@ -189,7 +181,7 @@ class BorrowsRepository extends Repository {
         $stmt->bindParam(':bid', $bid);
         $stmt->execute();
 
-        $books = $stmt->fetchAll(PDO::FETCH_CLASS, "BorrowLight");
+        $books = $stmt->fetchAll(PDO::FETCH_CLASS, "BorrowHistory");
 
         $connection = null;
 
