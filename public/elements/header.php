@@ -8,7 +8,7 @@
             <?php
             if($_SESSION['created'] && in_array("books_view", $_SESSION['roles'])) {
             ?>
-            <a href="/books" class="navigation-link <?php if(isset($current) && $current == 'books') echo 'navigation-link-current' ?>">Books</a>
+            <a href="/booksView" class="navigation-link <?php if(isset($current) && $current == 'books') echo 'navigation-link-current' ?>">Books</a>
             <?php
             }
             ?>

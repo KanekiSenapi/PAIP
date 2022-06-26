@@ -1,19 +1,14 @@
 <?php
 
-class BookLight {
+class BookLight extends Model {
 
-    private $id;
-    private $title;
-    private $authors;
+    protected $id;
+    protected $title;
+    protected $authors;
 
     public function getId()
     {
         return $this->id;
-    }
-
-    public function setId($id): void
-    {
-        $this->id = $id;
     }
 
     public function getTitle()
@@ -21,19 +16,10 @@ class BookLight {
         return $this->title;
     }
 
-    public function setTitle($title): void
-    {
-        $this->title = $title;
-    }
-
     public function getAuthors()
     {
         return $this->authors;
     }
 
-    public function setAuthors($authors): void
-    {
-        $this->authors = $authors;
-    }
 
 }

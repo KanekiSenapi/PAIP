@@ -189,6 +189,18 @@ main {
     background-color: #2e9dff;
 }
 
+.search {
+    text-align: right;
+}
+
+.search input {
+    display: block;
+    padding: 0.313rem;
+    border: 0 solid #000;
+    border-radius: 0.188rem;
+    box-shadow: 0 0 0 0.063rem rgba(64, 64, 71, 0.3);
+}
+
 button {
     cursor: pointer;
 }
@@ -215,7 +227,7 @@ button {
     letter-spacing: 0.175rem;
     text-decoration: none;
     text-transform: uppercase;
-    margin: 0.625rem;
+    margin: 0.625rem 0.625rem 0.625rem 0;
 }
 
 .button:hover {

@@ -8,8 +8,12 @@ class BooksService extends Service {
         $this->repository = new BooksRepository();
     }
 
-   public function getAllLightBooks(): array {
-        return $this->repository->getAllLightBooks();
+   public function getLightBooksWithQuery($query): array {
+       if ($query) {
+           return $this->repository->queryLightBooks($query);
+       } else {
+           return $this->repository->getAllLightBooks();
+       }
    }
 
     public function getBookById($id): ?BookFull {

@@ -12,21 +12,33 @@ class BooksController extends AppController {
         $this->service = new BooksService();
     }
 
-    public function books($part) {
-        if (is_numeric($part)) {
-            $this->book($part);
+    public function books() {
+        if ($this->isGet() && $this->roleValidate("books_view")) {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode($this->service->getLightBooksWithQuery($_GET['query']));
+        } else if ($this->isPost() && $this->roleValidate("books_create")) {
+            $bookId = $this->service->addBook($_POST['metadataId']);
+            if ($bookId > 0) {
+                header("HTTP/1.1 200 OK");
+                HeaderUtils::redirectTo("booksView/{$bookId}");
+            } else {
+                header("HTTP/1.1 400 Bad Request");
+                HeaderUtils::redirectTo("bookForm");
+            }
+        } else {
+            HeaderUtils::redirectToHome();
+        }
+    }
+
+    public function booksView($rest) {
+        if (is_numeric($rest)) {
+            $this->book($rest);
         } else {
             if ($this->isGet() && $this->roleValidate("books_view")) {
-                $books = $this->service->getAllLightBooks();
-                $this->render("books", "Books", ['books' => $books], "books_view");
-            } else if ($this->isPost() && $this->roleValidate("books_create")) {
-                $bookId = $this->service->addBook($_POST['metadataId']);
-                HeaderUtils::redirectTo("books/{$bookId}");
+                $this->render("books", "Books", [], "books_view");
             } else {
                 HeaderUtils::redirectToHome();
             }
-
-
         }
     }
 

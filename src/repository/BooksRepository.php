@@ -26,6 +26,24 @@ class BooksRepository extends Repository {
             b.id, bm.title;
     ';
 
+    private static string $QUERY_LIGHT_BOOKS = '
+        SELECT
+            b.id as id,
+            bm.title as title,
+            string_agg(ba.fullname, \', \') as authors
+        FROM
+            books b
+                INNER JOIN book_metadata bm on bm.id = b."metadataId"
+                INNER JOIN book_metadata_authors bma on bm.id = bma."metadataId"
+                INNER JOIN book_authors ba on ba.id = bma."authorId"
+        GROUP BY
+            b.id, bm.title
+        HAVING
+            b.id = :query OR LOWER(bm.title) LIKE LOWER(:queryLike) OR LOWER(string_agg(ba.fullname, \', \')) LIKE LOWER(:queryLike)
+        ;
+            
+    ';
+
     private static string $SELECT_BOOK_BY_ID = '
         SELECT
             b.id as id,
@@ -78,6 +96,25 @@ class BooksRepository extends Repository {
         $connection = $this->datasource->connect();
 
         $stmt = $connection->prepare(self::$SELECT_ALL_LIGHT_BOOKS);
+        $stmt->execute();
+
+        $books = $stmt->fetchAll(PDO::FETCH_CLASS, "BookLight");
+
+        $connection = null;
+
+        return $books;
+    }
+
+    public function queryLightBooks($query): array {
+        $connection = $this->datasource->connect();
+
+        $idNumeric = is_numeric($query) ? $query : 0;
+        $queryLike = '%' . $query . '%';
+
+        $stmt = $connection->prepare(self::$QUERY_LIGHT_BOOKS);
+        $stmt->bindParam(":query", $idNumeric);
+        $stmt->bindParam(":queryLike", $queryLike);
+
         $stmt->execute();
 
         $books = $stmt->fetchAll(PDO::FETCH_CLASS, "BookLight");

@@ -9,7 +9,7 @@ Router::get('', 'DefaultController');
 Router::get('home', 'DefaultController');
 
 #PHP View
-Router::get('books', 'BooksController');
+Router::get('booksView', 'BooksController');
 Router::get('borrows', 'BorrowsController');
 
 #Form
@@ -22,6 +22,7 @@ Router::get('authors', 'AuthorsController');
 Router::get('types', 'TypesController');
 Router::get('publishers', 'PublishersController');
 Router::get('metadata', 'MetadataController');
+Router::get('books', 'BooksController');
 Router::get('booksFree', 'BooksController');
 Router::get('usersList', 'UserController');
 Router::get('borrowHistory', 'BorrowsController');

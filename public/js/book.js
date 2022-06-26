@@ -12,7 +12,7 @@ function handleDeleteButton(e) {
         {method: "DELETE"})
         .then(response => {
                 if (response.status === 200) {
-                    window.location.href = "/books/";
+                    window.location.href = "/booksView/";
                 } else {
                     window.location.href += "?message=Something went wrong. Try again."
                 }
@@ -33,7 +33,6 @@ function fetchGetAll(endpoint) {
     fetch(endpoint)
         .then(response => response.json())
         .then(response => {
-                console.log(response)
                 response.forEach(row => {
                     const tr = document.createElement('tr')
                     tr.addEventListener("click", () => window.location.href = "/borrows/" + row['id'])
