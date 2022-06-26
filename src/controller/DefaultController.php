@@ -8,4 +8,8 @@ class DefaultController extends AppController {
         $this->render("home", "Home");
     }
 
+    public function about() {
+        $this->render("about", "about");
+    }
+
 }

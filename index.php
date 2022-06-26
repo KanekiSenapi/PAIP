@@ -7,6 +7,7 @@ $path = parse_url( $path, PHP_URL_PATH);
 
 Router::get('', 'DefaultController');
 Router::get('home', 'DefaultController');
+Router::get('about', 'DefaultController');
 
 #PHP View
 Router::get('booksView', 'BooksController');
